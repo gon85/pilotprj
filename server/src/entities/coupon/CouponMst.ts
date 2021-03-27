@@ -1,7 +1,7 @@
 import {GraphQLInt, GraphQLString} from 'graphql';
 import {Field, GraphQLISODateTime, ObjectType} from 'type-graphql';
 import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from 'typeorm';
-import {CouponType} from '../../resolvers/coupon/consts';
+import {CouponType, CouponTypeToName} from '../../resolvers/coupon/consts';
 import {CouponTrx} from './CouponTrx';
 
 @Entity()
@@ -15,9 +15,14 @@ export class CouponMst {
   @Column({type: 'varchar', nullable: false, length: 250, comment: '쿠폰이름'})
   couponName!: string;
 
-  @Field(() => CouponType, {nullable: false, description: '쿠폰상태'})
-  @Column({type: 'varchar', nullable: false, length: 12, comment: '쿠폰상태'})
+  @Field(() => CouponType, {nullable: false, description: '쿠폰타입'})
+  @Column({type: 'varchar', nullable: false, length: 12, comment: '쿠폰타입'})
   couponType!: CouponType;
+
+  @Field(() => GraphQLString, {nullable: true, description: '쿠폰타입이름'})
+  get couponTypeName() {
+    return this.couponType ? CouponTypeToName[this.couponType] : '';
+  }
 
   @Field(() => GraphQLInt, {nullable: false, description: '쿠폰 값'})
   @Column({nullable: false, comment: '쿠폰값'})

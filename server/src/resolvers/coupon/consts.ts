@@ -7,7 +7,7 @@ export enum CouponType {
 }
 
 export const CouponTypeToName = {
-  [CouponType.Price]: '캐시지급',
+  [CouponType.Price]: '현금지급',
   [CouponType.Rate]: '가격할인',
 };
 

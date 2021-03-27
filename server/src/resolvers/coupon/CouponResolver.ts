@@ -6,6 +6,7 @@ import {couponService} from '../../services/coupon/CouponService';
 import {CodeInfo} from '../../utils/outputs';
 import {CouponStatusToName, CouponType, CouponTypeToName} from './consts';
 import {GraphQLString} from 'graphql';
+import {CouponMst} from '../../entities/coupon/CouponMst';
 
 @Resolver(() => CouponTrx)
 export class CouponResolver {

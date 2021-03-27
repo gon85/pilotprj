@@ -1,6 +1,6 @@
 import {CouponType} from '../src/resolvers/coupon/consts';
 import {doGQLQuery, tester} from './common';
-import {GQL_CREATE_COUPONS, GQL_LIST_COUPONS} from './gql';
+import {GQL_CODEINFOS, GQL_CREATE_COUPONS, GQL_LIST_COUPONS} from './gql';
 
 describe('쿠폰 테스트', () => {
   beforeAll(tester.beforeAll);
@@ -41,6 +41,11 @@ describe('쿠폰 테스트', () => {
         },
       });
       expect(r3.body.data.listCoupon.totalCount).toEqual(totalCountOfPrice);
+
+      const r4 = await doGQLQuery(GQL_CODEINFOS);
+      expect(r4.body.data.couponTypes.length).toEqual(Object.values(CouponType).length);
+      expect(r4.body.data.couponTypes[0].code).toEqual(CouponType.Price);
+      expect(r4.body.data.couponTypes[1].code).toEqual(CouponType.Rate);
     },
     1000 * 60 * 5,
   );

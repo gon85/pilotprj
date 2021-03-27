@@ -2,6 +2,7 @@ const CouponMst_Snapshot = `
   cmId
   couponName
   couponType
+  couponTypeName
   value
   cnt
   limitDay

@@ -48,8 +48,11 @@ type CouponMst {
   """쿠폰이름"""
   couponName: String!
 
-  """쿠폰상태"""
+  """쿠폰타입"""
   couponType: CounponType!
+
+  """쿠폰타입이름"""
+  couponTypeName: String
 
   """쿠폰"""
   coupons: CouponTrx!
