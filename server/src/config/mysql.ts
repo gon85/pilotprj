@@ -1,7 +1,8 @@
 import {ConnectionOptions} from 'typeorm';
-import {Coupon} from '../entities/coupon/Coupon';
+import {CouponMst} from '../entities/coupon/CouponMst';
+import {CouponTrx} from '../entities/coupon/CouponTrx';
 
-const entities = [Coupon];
+const entities = [CouponMst, CouponTrx];
 
 export const MySQLOptions: ConnectionOptions = (function (): ConnectionOptions {
   switch (process.env.ENV) {

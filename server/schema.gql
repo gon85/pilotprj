@@ -3,13 +3,128 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-"""업데이트 가능한 App Config 설정"""
-type Coupon {
-  couponId: Int!
+type CodeInfo {
+  """code"""
+  code: String!
+
+  """보여지는 명칭"""
+  name: String!
+
+  """순서"""
+  order: Int!
 }
 
-type ListCoupon {
-  list: [Coupon!]!
+"""쿠폰타입"""
+enum CounponType {
+  Price
+  Rate
+}
+
+"""생성"""
+input CouponInput {
+  """쿠폰 발행수"""
+  cnt: Float!
+
+  """쿠폰이름"""
+  couponName: String!
+
+  """쿠폰상태"""
+  couponType: String!
+
+  """배포 후 유효일수"""
+  limitDay: Float!
+
+  """쿠폰 값"""
+  value: Float!
+}
+
+"""업데이트 가능한 App Config 설정"""
+type CouponMst {
+  cmId: Int!
+
+  """쿠폰 발행수"""
+  cnt: Int!
+
+  """쿠폰이름"""
+  couponName: String!
+
+  """쿠폰상태"""
+  couponType: CounponType!
+
+  """쿠폰"""
+  coupons: CouponTrx!
+
+  """생성일"""
+  createdAt: DateTime
+
+  """배포 후 유효일수"""
+  limitDay: Int!
+
+  """쿠폰 값"""
+  value: Int!
+}
+
+"""쿠폰상태"""
+enum CouponStatus {
+  Created
+  Expired
+  Issued
+  Used
+}
+
+"""쿠폰"""
+type CouponTrx {
+  """쿠폰마스터id"""
+  cmId: Int!
+
+  """쿠폰번호"""
+  couponKey: String!
+
+  """쿠폰마스터"""
+  couponMst: CouponMst!
+
+  """생성일"""
+  createdAt: DateTime
+  ctId: Int!
+
+  """배포일"""
+  issuedAt: DateTime
+
+  """지급 후 유효기간"""
+  limitDate: DateTime
+
+  """쿠폰상태"""
+  status: CouponStatus!
+
+  """쿠폰상태"""
+  statusName: String
+
+  """사용일"""
+  usedAt: DateTime
+}
+
+"""
+The javascript `Date` as string. Type represents date and time as the ISO Date string.
+"""
+scalar DateTime
+
+"""검색 필터"""
+input ListCouponInput {
+  """쿠폰타입"""
+  filterCouponName: String
+
+  """쿠폰타입"""
+  filterCouponType: String
+
+  """조회할 페이지"""
+  page: Int = 1
+
+  """조회할 페이지당 아이템 수"""
+  pageSize: Int = 20
+}
+
+type ListCouponTrx {
+  list: [CouponTrx!]!
 
   """page index (1-based)"""
   page: Int!
@@ -21,13 +136,15 @@ type ListCoupon {
   totalCount: Int!
 }
 
-"""UserCash 검색 필터"""
-input ListCouponInput {
-  """desc 검색어"""
-  filter: String
+type Mutation {
+  """쿠폰을 생성 후 목록을 반환합니다."""
+  createCoupons(data: CouponInput!): ListCouponTrx!
 }
 
 type Query {
-  """UserCashHst 목록을 반환합니다."""
-  listCoupon(data: ListCouponInput!): ListCoupon!
+  """코드값을 반환합니다."""
+  couponTypes: [CodeInfo!]!
+
+  """목록을 반환합니다."""
+  listCoupon(data: ListCouponInput!): ListCouponTrx!
 }

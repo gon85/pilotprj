@@ -1,4 +1,4 @@
-import {GraphQLInt} from 'graphql';
+import {GraphQLInt, GraphQLString} from 'graphql';
 import {ClassType, Field, ObjectType} from 'type-graphql';
 
 export function ListableResponse<T>(TClass: ClassType<T>): any {
@@ -17,4 +17,30 @@ export function ListableResponse<T>(TClass: ClassType<T>): any {
     pageSize!: number;
   }
   return ListableResponseClass;
+}
+
+@ObjectType()
+export class CodeInfo {
+  @Field(() => GraphQLString, {description: 'code'})
+  code!: string;
+
+  @Field(() => GraphQLString, {description: '보여지는 명칭'})
+  name!: string;
+
+  @Field(() => GraphQLInt, {description: '순서'})
+  order!: number;
+
+  static convert<T>(enumValues: any[], enumToName: {[key: string]: string}): CodeInfo[] {
+    const codes: CodeInfo[] = [];
+    for (let i = 0; i < enumValues.length; i++) {
+      const val = enumValues[i] as T;
+      codes.push({
+        code: val + '',
+        name: enumToName[val + ''],
+        order: i,
+      });
+    }
+
+    return codes;
+  }
 }

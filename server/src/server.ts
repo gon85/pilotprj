@@ -1,4 +1,4 @@
-import bodyParser from 'body-parser';
+import 'reflect-metadata';
 import CookieParser from 'cookie-parser';
 import cors from 'cors';
 import {GraphQLSchema} from 'graphql';
@@ -18,16 +18,16 @@ export interface ServerDI {
   mysqlConn?: TypeORM.Connection;
 }
 
-export interface DangleContext extends ContextParameters {
+export interface PilotContext extends ContextParameters {
   di: ServerDI;
   adminId?: number;
   // admin?: Admin
 }
 
-export type ContextCreator = (ctx: ContextParameters) => Promise<DangleContext>;
+export type ContextCreator = (ctx: ContextParameters) => Promise<PilotContext>;
 
 const createContext = (di: ServerDI) => async (ctx: ContextParameters) => {
-  const c = ctx as DangleContext;
+  const c = ctx as PilotContext;
   c.di = di;
   return c;
 };
@@ -64,7 +64,7 @@ export default class Server {
     await this.buildGraphQLSchema();
     await this.createMySQLConnection();
 
-    const contextCreator: (ctx: ContextParameters) => Promise<DangleContext> = createContext(this.di);
+    const contextCreator: (ctx: ContextParameters) => Promise<PilotContext> = createContext(this.di);
 
     this.di.graphQL = new GraphQLServer({
       schema: this._schema as any,
