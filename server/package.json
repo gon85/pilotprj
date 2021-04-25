@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "db": "docker-compose -f res/docker.yml up",
-    "db:reset": "mysql -h 127.0.0.1 -P 3307 -uroot -ptest < res/init.sql",
+    "db:reset": "mysql -h 127.0.0.1 -P 3306 -uroot -ptest < res/init.sql",
     "server": "ts-node --files src/index.ts",
     "test": "ENV=test jest --runInBand"
   },
